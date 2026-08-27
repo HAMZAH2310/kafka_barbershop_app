@@ -1,0 +1,20 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0B0B0C;
+  --color-surface: #18181B;
+  --color-ivory: #F5F1E8;
+  --color-brass: #B08D57;
+  --color-brass-light: #D4B483;
+  --color-muted: #8B8B8A;
+  --color-line: #2A2A2D;
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  font-family: var(--font-body), sans-serif;
+}
