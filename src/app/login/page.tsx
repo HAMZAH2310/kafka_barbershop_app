@@ -7,7 +7,7 @@ import LoginMobile from "@/components/auth/LoginMobile";
 export default async function LoginPage() {
     const user = await getCurrentUser();
     if (user) {
-        redirect(user.role === "ADMIN" ? "/dashboard" : "/customer");
+        redirect(user.role === "ADMIN" ? "/dashboard" : "/dashboard-customer");
     }
 
     const deviceType = await getDeviceType();

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useOrderStore } from "@/store/useOrderStore";
 import { Order } from "@/lib/orders";
 import { serviceStatusLabel, paymentStatusLabel, serviceStatusColor, paymentStatusColor } from "@/lib/orderStatus";
 import StatCard from "@/components/ui/StatCard";
+import CheckPaymentStatusButton from "@/components/admin/order/CheckPaymentStatusButton";
 
 interface Props {
     orders?: Order[];
@@ -18,18 +20,27 @@ const TABS: { key: FilterTab; label: string }[] = [
     { key: "completed", label: "Selesai" },
 ];
 
-export default function DashboardMobile({ orders = [] }: Props) {
+export default function DashboardMobile({ orders: initialOrders = [] }: Props) {
+    const { orders, setOrders } = useOrderStore();
     const [activeTab, setActiveTab] = useState<FilterTab>("all");
 
+    useEffect(() => {
+        if (initialOrders && initialOrders.length > 0) {
+            setOrders(initialOrders);
+        }
+    }, [initialOrders, setOrders]);
+
+    const displayOrders = orders.length > 0 ? orders : initialOrders;
+
     const filteredOrders = activeTab === "all"
-        ? orders
-        : orders.filter((o) => o.service_status === activeTab);
+        ? displayOrders
+        : displayOrders.filter((o) => o.service_status === activeTab);
 
     const stats = {
-        waiting: orders.filter((o) => o.service_status === "waiting").length,
-        in_service: orders.filter((o) => o.service_status === "in_service").length,
-        completed: orders.filter((o) => o.service_status === "completed").length,
-        unpaid: orders.filter((o) => o.payement_status === "unpaid" || o.payement_status === "pending").length,
+        waiting: displayOrders.filter((o) => o.service_status === "waiting").length,
+        in_service: displayOrders.filter((o) => o.service_status === "in_service").length,
+        completed: displayOrders.filter((o) => o.service_status === "completed").length,
+        unpaid: displayOrders.filter((o) => o.payement_status === "unpaid" || o.payement_status === "pending").length,
     };
 
     return (
@@ -82,13 +93,16 @@ export default function DashboardMobile({ orders = [] }: Props) {
                         </p>
 
                         <div className="flex items-center justify-between mt-3">
-                            <div className="flex gap-2 flex-wrap">
+                            <div className="flex items-center gap-2 flex-wrap">
                                 <span className={`px-2.5 py-1 rounded-full text-xs border ${serviceStatusColor(order.service_status)}`}>
                                     {serviceStatusLabel[order.service_status]}
                                 </span>
-                                <span className={`px-2.5 py-1 rounded-full text-xs border ${paymentStatusColor(order.payement_status)}`}>
-                                    {paymentStatusLabel[order.payement_status]}
-                                </span>
+                                <div className="flex items-center gap-1.5">
+                                    <span className={`px-2.5 py-1 rounded-full text-xs border ${paymentStatusColor(order.payement_status)}`}>
+                                        {paymentStatusLabel[order.payement_status]}
+                                    </span>
+                                    <CheckPaymentStatusButton order={order} compact />
+                                </div>
                             </div>
                         </div>
 

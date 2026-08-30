@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useBarberStore } from "@/store/useBarberStore";
-import { Barber } from "@/lib/barber";
+import { Barber } from "@/lib/barbers";
 import Button from "@/components/ui/Button";
 
 interface Props {
@@ -61,7 +61,7 @@ export default function BarberFormModal({ barber, onClose }: Props) {
                         placeholder="Nama barber"
                     />
 
-                    <label className="block text-xs text-muted uppercase tracking-widest mb-2">No. HP</label>
+                    <label className="block text-xs text-muted uppercase tracking-widest mb-2">No. HP (opsional)</label>
                     <input
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useBarberStore } from "@/store/useBarberStore";
-import { BarberStatus } from "@/lib/barber";
+import { BarberStatus } from "@/lib/barbers";
 import { barberStatusColor } from "@/lib/barberStatus";
 
 interface Props {

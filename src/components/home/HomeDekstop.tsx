@@ -49,7 +49,7 @@ export default function HomeDesktop() {
                 if (role === "ADMIN") {
                     setHref("/dashboard")
                 } else {
-                    setHref("/customer")
+                    setHref("/dashboard-customer")
                 }
             } catch {
                 setHref("/login")

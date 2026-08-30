@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const MENU_ITEMS = [
-    { href: "/dashboard", label: "Order" },
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/barber", label: "Barber" },
-    { href: "/services", label: "Layanan" },
+    { href: "/service", label: "Layanan" },
     { href: "/customers", label: "Customer" },
+    { href: "/orders", label: "Orders" }
 ];
 
 export default function BottomNav() {

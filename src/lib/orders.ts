@@ -18,6 +18,7 @@ export interface Order {
     customer: { name: string };
     barber: { name: string };
     orderItems?: OrderItem[];
+    midtransTransaction?: { midtransOrderId: string }[];
 }
 
 export async function getOrders(): Promise<Order[]> {

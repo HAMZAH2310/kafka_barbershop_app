@@ -1,5 +1,5 @@
 import { getDeviceType } from "@/lib/getDevice";
-import { getBarbers } from "@/lib/barber";
+import { getBarbers } from "@/lib/barbers";
 import BarberListDesktop from "@/components/admin/barber/BarberListDesktop";
 import BarberListMobile from "@/components/admin/barber/BarberListMobile";
 
