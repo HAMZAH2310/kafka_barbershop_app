@@ -6,18 +6,20 @@ import { Order } from "@/lib/orders";
 import { serviceStatusLabel, paymentStatusLabel, serviceStatusColor, paymentStatusColor } from "@/lib/orderStatus";
 import OrderActionButton from "./OrderActionButton";
 import CheckPaymentStatusButton from "./CheckPaymentStatusButton";
+import CancelOrderButton from "./CancelOrderButton";
 
 interface Props {
     initialOrders: Order[];
 }
 
-type FilterTab = "all" | "waiting" | "in_service" | "completed";
+type FilterTab = "all" | "waiting" | "in_service" | "completed" | "cancelled";
 
 const TABS: { key: FilterTab; label: string }[] = [
     { key: "all", label: "Semua" },
     { key: "waiting", label: "Menunggu" },
     { key: "in_service", label: "Dilayani" },
     { key: "completed", label: "Selesai" },
+    { key: "cancelled", label: "Dibatalkan" },
 ];
 
 export default function OrderListMobile({ initialOrders }: Props) {
@@ -95,6 +97,7 @@ export default function OrderListMobile({ initialOrders }: Props) {
                                 })}
                             </p>
                             <OrderActionButton orderId={order.id} currentStatus={order.service_status} />
+                            <CancelOrderButton orderId={order.id} serviceStatus={order.service_status} />
                         </div>
                     </div>
                 ))}

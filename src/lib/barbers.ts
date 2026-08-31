@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { api } from "./api";
+import axios from "axios";
 
 export type BarberStatus = "available" | "working" | "on_break";
 
@@ -18,11 +18,16 @@ export async function getBarbers(): Promise<Barber[]> {
 
     if (!token) return [];
 
+    const apiUrl = process.env.API_URL || "http://localhost:3001/api";
+
     try {
-        const res = await api.get("/barber", {
-            headers: { Cookie: `token=${token.value}` }
+        const res = await axios.get(`${apiUrl}/barber`, {
+            headers: { Cookie: `token=${token.value}` },
         });
-        return res.data.data;
+
+        const data = res.data.data;
+        return Array.isArray(data) ? data : [];
+
     } catch {
         return [];
     }

@@ -6,7 +6,7 @@ import ServiceListMobile from "@/components/admin/service/ServiceListMobile";
 export default async function ServicesPage() {
     const [deviceType, services] = await Promise.all([
         getDeviceType(),
-        getService(),
+        getService(true),
     ]);
 
     return deviceType === "mobile"

@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 interface Props {
     orderId: number;
-    currentStatus: "waiting" | "in_service" | "completed";
+    currentStatus: "waiting" | "in_service" | "completed" | "cancelled";
 }
 
 const NEXT_STATUS: Record<string, "in_service" | "completed" | null> = {

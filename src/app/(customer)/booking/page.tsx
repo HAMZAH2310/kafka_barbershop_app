@@ -9,7 +9,7 @@ export default async function BookingPage() {
     const [deviceType, barbers, services] = await Promise.all([
         getDeviceType(),
         getBarbers(),
-        getService(),
+        getService(true),
     ]);
 
     return deviceType === "mobile"

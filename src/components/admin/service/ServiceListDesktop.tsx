@@ -67,9 +67,11 @@ export default function ServiceListDesktop({ initialServices }: Props) {
                                 <button onClick={() => handleEdit(service)} className="text-muted hover:text-brass text-xs transition-colors">
                                     Edit
                                 </button>
-                                <button onClick={() => handleDelete(service.id)} className="text-muted hover:text-red-400 text-xs transition-colors">
-                                    Hapus
-                                </button>
+                                {service.isActive && (
+                                    <button onClick={() => handleDelete(service.id)} className="text-muted hover:text-red-400 text-xs transition-colors">
+                                        Nonaktifkan
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

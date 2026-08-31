@@ -10,14 +10,15 @@ interface Props {
 
 export default function ServiceSelector({ services }: Props) {
     const { selectedServices, toggleService, updateQty } = useBookingStore();
+    const activeServices = services.filter((s) => s.isActive);
 
-    if (services.length === 0) {
+    if (activeServices.length === 0) {
         return <p className="text-muted text-sm py-6 text-center">Belum ada layanan tersedia</p>;
     }
 
     return (
         <div className="flex flex-col gap-3">
-            {services.map((service) => {
+            {activeServices.map((service) => {
                 const selected = selectedServices.find((s) => s.serviceId === service.id);
 
                 return (

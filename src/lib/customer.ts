@@ -1,5 +1,6 @@
+// src/lib/customer.ts
 import { cookies } from "next/headers";
-import { api } from "./api";
+import axios from "axios";
 
 export interface Customer {
     id: number;
@@ -16,11 +17,15 @@ export async function getCustomers(): Promise<Customer[]> {
 
     if (!token) return [];
 
+    const apiUrl = process.env.API_URL || "http://localhost:3001/api";
+
     try {
-        const res = await api.get("/customer", {
+        const res = await axios.get(`${apiUrl}/customer`, {
             headers: { Cookie: `token=${token.value}` },
         });
-        return res.data.data;
+
+        const data = res.data.data;
+        return Array.isArray(data) ? data : [];
 
     } catch {
         return [];

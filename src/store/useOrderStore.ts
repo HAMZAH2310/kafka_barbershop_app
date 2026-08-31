@@ -22,6 +22,7 @@ interface OrderState {
     updateStatus: (id: number, status: "in_service" | "completed") => Promise<{ success: boolean; message?: string }>;
     syncPaymentStatus: (midtransOrderId: string) => Promise<{ success: boolean; message?: string }>;
     clearError: () => void;
+    cancelOrder: (id: number) => Promise<{ success: boolean; message?: string }>;
 }
 
 export const useOrderStore = create<OrderState>((set, get) => ({
@@ -95,6 +96,21 @@ export const useOrderStore = create<OrderState>((set, get) => ({
         } catch (err) {
             const error = err as AxiosError<{ message: string }>;
             const message = error.response?.data?.message || "Gagal mengecek status transaksi";
+            return { success: false, message };
+        }
+    },
+
+    cancelOrder: async (id: number) => {
+        const previous = get().orders;
+
+        try {
+            const res = await api.patch(`/order/${id}/cancel`);
+            return { success: true, message: res.data.message };
+
+        } catch (err) {
+            const error = err as AxiosError<{ message: string }>;
+            const message = error.response?.data?.message || "Gagal membatalkan order";
+            set({ error: message });
             return { success: false, message };
         }
     },

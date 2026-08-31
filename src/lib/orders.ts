@@ -11,7 +11,7 @@ export interface OrderItem {
 export interface Order {
     id: number;
     queueNumber: number | null;
-    service_status: "waiting" | "in_service" | "completed";
+    service_status: "waiting" | "in_service" | "completed" | "cancelled";
     payement_status: "unpaid" | "pending" | "paid" | "failed" | "expired" | "cancelled";
     notes: string;
     checkin_time: string;

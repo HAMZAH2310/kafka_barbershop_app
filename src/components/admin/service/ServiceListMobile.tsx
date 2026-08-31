@@ -57,13 +57,15 @@ export default function ServiceListMobile({ initialServices }: Props) {
                             <p className="text-muted text-xs mt-0.5">{formatDuration(service.duration)}</p>
                             <p className="font-mono text-brass text-sm mt-1">{formatRupiah(service.price)}</p>
 
-                            <div className="flex gap-4 mt-2">
+                            <div className="flex gap-4 mt-4 pt-3 border-t border-line">
                                 <button onClick={() => handleEdit(service)} className="text-muted hover:text-brass text-xs transition-colors">
                                     Edit
                                 </button>
-                                <button onClick={() => handleDelete(service.id)} className="text-muted hover:text-red-400 text-xs transition-colors">
-                                    Hapus
-                                </button>
+                                {service.isActive && (
+                                    <button onClick={() => handleDelete(service.id)} className="text-muted hover:text-red-400 text-xs transition-colors">
+                                        Nonaktifkan
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
