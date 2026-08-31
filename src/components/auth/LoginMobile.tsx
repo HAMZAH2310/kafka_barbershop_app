@@ -19,7 +19,7 @@ export default function LoginMobile() {
         const user = await login(username, password);
 
         if (user) {
-            router.push(user.role === "ADMIN" ? "/dashboard" : "/customer");
+            router.push(user.role === "ADMIN" ? "/dashboard" : "/dashboard-customer");
             router.refresh();
         }
     };

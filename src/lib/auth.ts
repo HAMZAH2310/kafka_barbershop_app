@@ -4,6 +4,7 @@ import axios from "axios";
 export interface CurrentUser {
     id: number;
     username: string;
+    email?: string;
     role: "ADMIN" | "CUSTOMER";
 }
 

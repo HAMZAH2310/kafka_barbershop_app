@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useBarberStore } from "@/store/useBarberStore";
-import { Barber } from "@/lib/barber";
+import { Barber } from "@/lib/barbers";
 import Button from "@/components/ui/Button";
 import BarberFormModal from "./BarberFormModal";
 import BarberStatusSelect from "./BarberStatusSelect";

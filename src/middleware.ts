@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isMobileUserAgent } from "./lib/device";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/customer"];
+const PROTECTED_PREFIXES = ["/dashboard", "/customer", "/dashboard-customer", "/onboarding", "/booking"];
 
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;

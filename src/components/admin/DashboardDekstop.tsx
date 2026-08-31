@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useOrderStore } from "@/store/useOrderStore";
 import { Order } from "@/lib/orders";
 import { serviceStatusColor, paymentStatusColor, serviceStatusLabel, paymentStatusLabel } from "@/lib/orderStatus";
 import StatCard from "@/components/ui/StatCard";
+import CheckPaymentStatusButton from "@/components/admin/order/CheckPaymentStatusButton";
 
 interface Props {
     orders: Order[];
@@ -18,18 +20,27 @@ const TABS: { key: FilterTab; label: string }[] = [
     { key: "completed", label: "Selesai" },
 ];
 
-export default function DashboardDesktop({ orders }: Props) {
+export default function DashboardDesktop({ orders: initialOrders }: Props) {
+    const { orders, setOrders } = useOrderStore();
     const [activeTab, setActiveTab] = useState<FilterTab>("all");
 
+    useEffect(() => {
+        if (initialOrders) {
+            setOrders(initialOrders);
+        }
+    }, [initialOrders, setOrders]);
+
+    const displayOrders = orders.length > 0 ? orders : initialOrders;
+
     const filteredOrders = activeTab === "all"
-        ? orders
-        : orders.filter((o) => o.service_status === activeTab);
+        ? displayOrders
+        : displayOrders.filter((o) => o.service_status === activeTab);
 
     const stats = {
-        waiting: orders.filter((o) => o.service_status === "waiting").length,
-        in_service: orders.filter((o) => o.service_status === "in_service").length,
-        completed: orders.filter((o) => o.service_status === "completed").length,
-        unpaid: orders.filter((o) => o.payement_status === "unpaid" || o.payement_status === "pending").length,
+        waiting: displayOrders.filter((o) => o.service_status === "waiting").length,
+        in_service: displayOrders.filter((o) => o.service_status === "in_service").length,
+        completed: displayOrders.filter((o) => o.service_status === "completed").length,
+        unpaid: displayOrders.filter((o) => o.payement_status === "unpaid" || o.payement_status === "pending").length,
     };
 
     return (
@@ -102,9 +113,12 @@ export default function DashboardDesktop({ orders }: Props) {
                                     </span>
                                 </td>
                                 <td className="px-5 py-4">
-                                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs border ${paymentStatusColor(order.payement_status)}`}>
-                                        {paymentStatusLabel[order.payement_status]}
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`inline-block px-2.5 py-1 rounded-full text-xs border ${paymentStatusColor(order.payement_status)}`}>
+                                            {paymentStatusLabel[order.payement_status]}
+                                        </span>
+                                        <CheckPaymentStatusButton order={order} />
+                                    </div>
                                 </td>
                                 <td className="px-5 py-4 text-muted text-xs">
                                     {new Date(order.checkin_time).toLocaleString("id-ID", {

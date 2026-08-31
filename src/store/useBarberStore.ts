@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { AxiosError } from "axios";
 import { api } from "@/lib/api";
-import { Barber, BarberStatus } from "@/lib/barber";
+import { Barber, BarberStatus } from "@/lib/barbers";
 
 interface BarberState {
     barbers: Barber[];
@@ -12,6 +12,7 @@ interface BarberState {
     updateBarber: (id: number, formData: FormData) => Promise<boolean>;
     updateStatus: (id: number, status: BarberStatus) => Promise<boolean>;
     deleteBarber: (id: number) => Promise<boolean>;
+    applyBarberUpdate: (updatedBarber: Barber) => void;
     clearError: () => void;
 }
 
@@ -87,6 +88,14 @@ export const useBarberStore = create<BarberState>((set, get) => ({
             set({ error: error.response?.data?.message || "Gagal menghapus barber", isLoading: false });
             return false;
         }
+    },
+
+    applyBarberUpdate: (updatedBarber: Barber) => {
+        set({
+            barbers: get().barbers.map((b) =>
+                b.id === updatedBarber.id ? { ...b, ...updatedBarber } : b
+            ),
+        });
     },
 
     clearError: () => set({ error: "" }),

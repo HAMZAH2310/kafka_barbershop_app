@@ -2,16 +2,17 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getMonthlyRevenue } from "@/lib/revenue";
 import { getDeviceType } from "@/lib/getDevice";
+import RealtimeProvider from "@/components/admin/RealTimeProvier";
 import Sidebar from "@/components/admin/Sidebar";
+import BottomNav from "@/components/admin/BottomTabNavigation";
 import TopbarDesktop from "@/components/admin/TopBarDesktop";
 import TopbarMobile from "@/components/admin/TopBarMobile";
-import BottomNav from "@/components/admin/BottomTabNavigation";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
     const user = await getCurrentUser();
 
     if (!user) redirect("/login");
-    if (user.role !== "ADMIN") redirect("/customer");
+    if (user.role !== "ADMIN") redirect("/dashboard-customer");
 
     const [revenue, deviceType] = await Promise.all([
         getMonthlyRevenue(),
@@ -29,12 +30,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     }
 
     return (
-        <div className="flex min-h-screen bg-ink">
-            <Sidebar />
-            <div className="flex-1">
-                <TopbarDesktop initialUsername={user.username} initialRevenue={revenue?.totalRevenue || 0} />
-                <main>{children}</main>
+        <RealtimeProvider>
+            <div className="flex min-h-screen bg-ink">
+                <Sidebar />
+                <div className="flex-1">
+                    <TopbarDesktop initialUsername={user.username} initialRevenue={revenue?.totalRevenue || 0} />
+                    <main>{children}</main>
+                </div>
             </div>
-        </div>
+        </RealtimeProvider>
     );
 }
