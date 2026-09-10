@@ -8,7 +8,8 @@ const MENU_ITEMS = [
     { href: "/barber", label: "Barber" },
     { href: "/service", label: "Layanan" },
     { href: "/customers", label: "Customer" },
-    { href: "/orders", label: "Orders" }
+    { href: "/orders", label: "Orders" },
+    { href: "/revenue", label: "Pendapatan" }
 ];
 
 export default function Sidebar() {
